@@ -1,0 +1,19 @@
+﻿<Application x:Class="WpfNavigationDemo.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:WpfNavigationDemo.ViewModels"
+             xmlns:views="clr-namespace:WpfNavigationDemo.Views"
+             xmlns:conv="clr-namespace:WpfNavigationDemo.Converters">
+    <Application.Resources>
+        <!-- Converter za aktivni meni -->
+        <conv:IsInstanceOfConverter x:Key="IsInstanceOf"/>
+
+        <!-- VM→View mapiranja -->
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <views:HomeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsView/>
+        </DataTemplate>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,89 @@
+﻿<Window x:Class="WpfNavigationDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WpfNavigationDemo.ViewModels"
+        Title="WPF Navigation • DIY MVVM" Height="480" Width="900"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- SVI resursi idu prije sadržaja -->
+    <Window.Resources>
+        <Style x:Key="NavButtonBase" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Background" Value="#2a2a2a"/>
+            <Setter Property="Foreground" Value="#ddd"/>
+            <Setter Property="BorderBrush" Value="#3a3a3a"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#222" Padding="12">
+            <TextBlock Text="WPF Navigation • DIY MVVM" Foreground="White" FontSize="16"/>
+        </Border>
+
+        <!-- Lijevi meni -->
+        <Border Grid.Row="1" Grid.Column="0" Background="#1E1E1E" Padding="12">
+            <StackPanel>
+                <TextBlock Text="Izbornik" Foreground="#ddd" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                <!-- HOME -->
+                <Button Content="🏠  Početna" Command="{Binding NavHomeCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavButtonBase}">
+                            <Style.Triggers>
+                                <DataTrigger Value="True">
+                                    <DataTrigger.Binding>
+                                        <Binding Path="DataContext.CurrentViewModel"
+                             RelativeSource="{RelativeSource AncestorType=Window}"
+                             Converter="{StaticResource IsInstanceOf}"
+                             ConverterParameter="{x:Type vm:HomeViewModel}"/>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="Background" Value="#3d6be5"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- SETTINGS -->
+                <Button Content="⚙️  Postavke" Command="{Binding NavSettingsCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavButtonBase}">
+                            <Style.Triggers>
+                                <DataTrigger Value="True">
+                                    <DataTrigger.Binding>
+                                        <Binding Path="DataContext.CurrentViewModel"
+                             RelativeSource="{RelativeSource AncestorType=Window}"
+                             Converter="{StaticResource IsInstanceOf}"
+                             ConverterParameter="{x:Type vm:SettingsViewModel}"/>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="Background" Value="#3d6be5"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </StackPanel>
+        </Border>
+
+        <!-- Desni sadržaj -->
+        <Border Grid.Row="1" Grid.Column="1" Padding="16" Background="WhiteSmoke">
+            <ContentControl Content="{Binding CurrentViewModel}"/>
+        </Border>
+    </Grid>
+</Window>
